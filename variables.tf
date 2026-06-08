@@ -1,0 +1,37 @@
+
+
+variable "provider_uri" {
+  type        = string
+  default     = "qemu:///system"
+  description = "Address of the Qemu system (uri)"
+}
+
+variable "vm_name" {
+  type        = string
+  default     = "legnano"
+  description = "The name to give to the VM(s)"
+}
+
+variable "vm_cpu_count" {
+  type        = number
+  default     = 2
+  description = "The CPU count of the VM(s)"
+}
+
+variable "vm_memory_size_mb" {
+  type        = number
+  default     = 4096
+  description = "The memory size of the VM(s) in MB"
+}
+
+variable "source_disk" {
+  type        = string
+  default     = "rocky-10-gc.qcow2"
+  description = "The name of the source disk image in the pool"
+}
+
+variable "libvirt_path" {
+  type        = string
+  default     = "/opt/libvirt"
+  description = "The base path of the where storages and images are located"
+}
