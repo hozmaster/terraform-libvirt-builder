@@ -78,8 +78,8 @@ sudo chown -R $USER:$USER /opt/libvirt
 
 # Download Rocky Linux 10 Cloud Image
 cd /opt/libvirt/source
-wget https://dl.rockylinux.org/pub/rocky/10/images/x86_64/Rocky-10-GenericCloud-Base.latest.x86_64.qcow2 \
-     -O rocky-10-gc.qcow2
+wget https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img \
+     -O ubuntu-noble-24-04.img
 ```
 
 
