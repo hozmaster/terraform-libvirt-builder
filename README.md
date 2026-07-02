@@ -95,16 +95,32 @@ Go to dev environment directory:
 ```bash
 cd infra/environments/dev
 ```
+
+Copy example file or create a 'dev.tfvars'-file and fill correct values to it: 
+
 ```
-tofu init
-terraform validate
-terraform plan
-terraform apply
+vm_name = "<vm_name>"
+vm_cpu_count = 1
+source_disk_image = "<disk_image_file>"
+vm_memory_size_mb = 2048
+libvirt_path = "/opt/libvirt"
+hostname = "<hostname>"
+```
+
+Save it and type :  
+
+```
+$ tofu init 
+```
+
+```
+$ tofu plan -vars-file=dev.tfvars
+$ tofu apply -vars-file=dev.tfvars
 ```
 
 **Recommended workflow:**
 1. Clone this repository
-2. Copy `terraform.tfvars.example` to `terraform.tfvars`
+2. Copy `dev.tfvars.example` to `dev.tfvars`
 3. Adjust variables (VM count, resources, SSH keys, etc.)
 4. Run the commands above
 
