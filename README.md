@@ -82,11 +82,10 @@ wget https://dl.rockylinux.org/pub/rocky/10/images/x86_64/Rocky-10-GenericCloud-
      -O rocky-10-gc.qcow2
 ```
 
----
 
-## Setup the ready-to-go environment 
+## Setup the ready-to-go environment
 
-Copy a ssh key to module to login system: 
+Copy a ssh key to module to login system:
 ```bash
 cp ~/.ssh/id_ed25519.pub infra/modulues/libvirt-vm/keys
 ````
@@ -96,7 +95,7 @@ Go to dev environment directory:
 cd infra/environments/dev
 ```
 
-Copy example file or create a 'dev.tfvars'-file and fill correct values to it: 
+Copy example file or create a 'dev.tfvars'-file and fill correct values to it:
 
 ```
 vm_name = "<vm_name>"
@@ -107,7 +106,7 @@ libvirt_path = "/opt/libvirt"
 hostname = "<hostname>"
 ```
 
-Save it and type :  
+Save it and type :
 
 ```
 $ tofu init 
@@ -115,7 +114,7 @@ $ tofu init
 
 ```
 $ tofu plan -vars-file=dev.tfvars
-$ tofu apply -vars-file=dev.tfvars
+$ tofu apply -vars-file=dev.tfvars -auto-approve
 ```
 
 **Recommended workflow:**
@@ -123,6 +122,7 @@ $ tofu apply -vars-file=dev.tfvars
 2. Copy `dev.tfvars.example` to `dev.tfvars`
 3. Adjust variables (VM count, resources, SSH keys, etc.)
 4. Run the commands above
+
 
 ---
 
