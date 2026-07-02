@@ -1,0 +1,8 @@
+# Copyright (c) 2026.  Olli-Pekka Wallin All rights reserved
+
+vm_name = "<vm_name>"
+vm_cpu_count = 11
+source_disk_image = "ubuntu-noble-gc.img"
+vm_memory_size_mb = 2048
+libvirt_path = "/opt/libvirt"
+hostname = "<hostname>"

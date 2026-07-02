@@ -1,5 +1,7 @@
 
 
+# Copyright (c) 2026.  Olli-Pekka Wallin All rights reserved
+
 variable "provider_uri" {
   type        = string
   default     = "qemu:///system"
@@ -24,7 +26,7 @@ variable "vm_memory_size_mb" {
   description = "The memory size of the VM(s) in MB"
 }
 
-variable "source_disk" {
+variable "source_disk_image" {
   type        = string
   default     = "rocky-10-gc.qcow2"
   description = "The name of the source disk image in the pool"
@@ -34,4 +36,9 @@ variable "libvirt_path" {
   type        = string
   default     = "/opt/libvirt"
   description = "The base path of the where storages and images are located"
+}
+
+variable "hostname" {
+  type    = string
+  default = ""
 }

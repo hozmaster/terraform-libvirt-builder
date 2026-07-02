@@ -1,5 +1,7 @@
 
-# Legnano - Libvirt + Terraform Homelab
+# Legnano 
+
+## Libvirt + Terraform/opentofu Homelab
 
 **Automated KVM/QEMU virtual machine provisioning using Terraform**
 
@@ -80,22 +82,47 @@ wget https://dl.rockylinux.org/pub/rocky/10/images/x86_64/Rocky-10-GenericCloud-
      -O rocky-10-gc.qcow2
 ```
 
----
 
-## Terraform Usage
+## Setup the ready-to-go environment
 
+Copy a ssh key to module to login system:
 ```bash
-terraform init
-terraform validate
-terraform plan
-terraform apply
+cp ~/.ssh/id_ed25519.pub infra/modulues/libvirt-vm/keys
+````
+
+Go to dev environment directory:
+```bash
+cd infra/environments/dev
+```
+
+Copy example file or create a 'dev.tfvars'-file and fill correct values to it:
+
+```
+vm_name = "<vm_name>"
+vm_cpu_count = 1
+source_disk_image = "<disk_image_file>"
+vm_memory_size_mb = 2048
+libvirt_path = "/opt/libvirt"
+hostname = "<hostname>"
+```
+
+Save it and type :
+
+```
+$ tofu init 
+```
+
+```
+$ tofu plan -vars-file=dev.tfvars
+$ tofu apply -vars-file=dev.tfvars -auto-approve
 ```
 
 **Recommended workflow:**
 1. Clone this repository
-2. Copy `terraform.tfvars.example` to `terraform.tfvars`
+2. Copy `dev.tfvars.example` to `dev.tfvars`
 3. Adjust variables (VM count, resources, SSH keys, etc.)
 4. Run the commands above
+
 
 ---
 
@@ -127,4 +154,3 @@ Then restart the VM:
 virsh shutdown <vm_name> --mode acpi
 virsh start <vm_name>
 ```
-
