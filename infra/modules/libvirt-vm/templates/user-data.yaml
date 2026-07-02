@@ -19,6 +19,7 @@ packages:
   - curl
   - git
   - htop
+  - openssh-server
   - net-tools
   - vim
   - qemu-guest-agent

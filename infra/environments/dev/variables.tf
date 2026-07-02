@@ -37,3 +37,8 @@ variable "libvirt_path" {
   default     = "/opt/libvirt"
   description = "The base path of the where storages and images are located"
 }
+
+variable "hostname" {
+  type    = string
+  default = ""
+}

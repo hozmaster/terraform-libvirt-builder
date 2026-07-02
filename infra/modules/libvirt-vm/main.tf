@@ -24,8 +24,8 @@ resource "libvirt_cloudinit_disk" "cloudinit_seed" {
   name = "${var.vm_name}-cloudinit-data"
 
   meta_data = <<-EOF
-    instance-id: ${var.vm_name}
-    local-hostname: ${var.vm_name}.local
+    instance-id: ${var.hostname}
+    local-hostname: ${var.hostname}.local
   EOF
 
   user_data = templatefile("${path.module}/templates/user-data.yaml", {
@@ -90,8 +90,8 @@ resource "libvirt_domain" "legnano" {
     type_arch    = "x86_64"
     type_machine = "pc-q35-noble"
     boot_devices = [
-      { dev = "hd" },
-      { dev = "cdrom" }
+      { dev = "cdrom" },
+      { dev = "hd" }
     ]
   }
 

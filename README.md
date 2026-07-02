@@ -1,5 +1,7 @@
 
-# Legnano - Libvirt + Terraform Homelab
+# Legnano 
+
+## Libvirt + Terraform/opentofu Homelab
 
 **Automated KVM/QEMU virtual machine provisioning using Terraform**
 
@@ -127,4 +129,3 @@ Then restart the VM:
 virsh shutdown <vm_name> --mode acpi
 virsh start <vm_name>
 ```
-
