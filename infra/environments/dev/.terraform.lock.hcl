@@ -1,9 +1,21 @@
-# This file is maintained automatically by "terraform init".
+# This file is maintained automatically by "tofu init".
 # Manual edits may be lost in future updates.
 
-provider "registry.terraform.io/dmacvicar/libvirt" {
+provider "registry.opentofu.org/dmacvicar/libvirt" {
   version = "0.9.8"
   hashes = [
+    "h1:/9TSq9ibeojseTyT6Jx3z/dbvT5uw8ka3/18NKonrQc=",
+    "h1:BN5hy1RaHlpcV0BDJYrSOEklK4YNdZCpiXOOGn0ce9k=",
+    "h1:MNJ6dcFru4DwQM7maIUAADJIHn3aF+L8XsnRJlleNaM=",
+    "h1:P1Cx0VZGTe6cpWpQ4JFOPJJb+Z+N50t4e1VA76T1tAA=",
+    "h1:Pm9du7Rzsg1bhLq+XnW9VaLSjTu0Yytr9AOdP9FLQvM=",
+    "h1:Q/JvNhRskJqDKPJoO9DW3+Ons3mk8kc++zlT4TucyFw=",
+    "h1:Tzk+wRzhboY3F3wB1u0y3ySMMd4ZPtJbOYlTbbkxZc0=",
+    "h1:Uuk8gkDEzmXfOTW/nm8GMG2aen7n/+X5GsTAf7eVRJc=",
+    "h1:cRBlnB/TG4+l0y0i42QLU0JoLDBxxJEwCguLXS9Rv8A=",
+    "h1:jn+hA9lIJzH5T0550IaKNsHxEAbyTGtvYWm02JCxexM=",
+    "h1:pKAwAcCGEwsKvVy5eIxdmb1gLhTTxB0xGVi8/jqj0uI=",
+    "h1:wS5VlGinhpnMCva0tKwLRPRQxmMUl80L05AueWshzNg=",
     "h1:yqZeKoJ+EZc3687/+ZBqBmtwzvBPLNwaEHW74+bSc6Y=",
     "zh:061e5187853729e1d8ba20938402ad6e778b4097436925d0bef7741c8aa26ee1",
     "zh:69a2ac8ee0cb0c1581bdc9a1296d89abcd1808229ff0a2fa20678ba4f7472944",
