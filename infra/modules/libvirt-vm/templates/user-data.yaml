@@ -1,6 +1,6 @@
 #cloud-config
-hostname: $[hostname}
-fqdn: $[hostname}.local
+hostname: ${hostname}
+fqdn: ${hostname}.local
 
 users:
   - name: tester
@@ -32,7 +32,7 @@ runcmd:
 # Resize root filesystem (usually automatic, but safe to force)
 growpart:
   mode: auto
-  devices: ['/']
+  devices: [ '/' ]
   ignore_fail: true
 
 power_state:

@@ -16,10 +16,6 @@ resource "libvirt_pool" "vm_datastore" {
   }
 }
 
-locals {
-  ssh_public_key = file(pathexpand(var.ssh_public_key_path))
-}
-
 resource "libvirt_cloudinit_disk" "cloudinit_seed" {
   name = "${var.vm_name}-cloudinit-data"
 

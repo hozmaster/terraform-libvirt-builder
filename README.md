@@ -84,10 +84,19 @@ wget https://dl.rockylinux.org/pub/rocky/10/images/x86_64/Rocky-10-GenericCloud-
 
 ---
 
-## Terraform Usage
+## Setup the ready-to-go environment 
 
+Copy a ssh key to module to login system: 
 ```bash
-terraform init
+cp ~/.ssh/id_ed25519.pub infra/modulues/libvirt-vm/keys
+````
+
+Go to dev environment directory:
+```bash
+cd infra/environments/dev
+```
+```
+tofu init
 terraform validate
 terraform plan
 terraform apply
