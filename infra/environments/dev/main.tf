@@ -24,20 +24,6 @@ locals {
   master_ips = join(",", var.master_ips)
 }
 
-# Dynamic inventory
-# data "template_file" "inventory" {
-#   # template = file("${path.module}/../../,,/ansible/inventory/hosts.ini.tmpl")
-#   template = file("${path.module}/../../../ansible/inventory/hosts.ini.tmpl")
-#   vars = {
-#     k3s_ips = local.master_ips
-#   }
-# }
-
-# resource "local_file" "inventory" {
-#   filename = "${path.module}/../../ansible/inventory/hosts.ini"
-#   content  = data.template_file.inventory.rendered
-# }
-
 # k3s token
 resource "random_password" "k3s_token" {
   length  = 32
@@ -52,27 +38,6 @@ resource "local_file" "k3s_vars" {
     k3s_registration_address = module.k3s_nodes.ip
   })
 }
-
-// value = libvirt_domain.example.network_interface[0].addresses[0]
-
-# # Run Ansible
-# resource "null_resource" "provision_k3s" {
-#   depends_on = [
-#     module.k3s_nodes,
-#     local_file.inventory,
-#     local_file.k3s_vars
-#   ]
-#
-#   provisioner "local-exec" {
-#     working_dir = "${path.module}/../../ansible"
-#     command     = <<EOT
-# ANSIBLE_HOST_KEY_CHECKING=False \
-# ansible-playbook \
-#   -i inventory/hosts.ini \
-#   playbooks/k3s.yml
-# EOT
-#   }
-# }
 
 resource "null_resource" "ansible_provisioner" {
   triggers = {
