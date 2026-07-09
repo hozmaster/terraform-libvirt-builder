@@ -3,13 +3,13 @@
 
 ## Libvirt + Terraform/opentofu Homelab
 
-**Automated KVM/QEMU virtual machine provisioning using Terraform**
+**Automated KVM/QEMU virtual machine provisioning using Terraform/Opentofu and Ansible** This project create a vm and install K3s to it via Ansible playbook 
 
 ---
 
 ## Overview
 
-This project provides a complete setup for deploying virtual machines on an Ubuntu host using **Terraform** and the **libvirt** provider. It is designed for homelab environments and focuses on reliability and ease of use.
+This project provides a complete setup for deploying virtual machines on an Ubuntu host using **Terraform**, **Ansible** and the **libvirt** provider. It is designed for homelab environments and focuses on reliability and ease of use.
 
 ---
 
@@ -42,6 +42,12 @@ sudo tee /etc/apt/sources.list.d/hashicorp.list
 
 sudo apt update
 sudo apt install -y terraform
+```
+
+Make a alias:
+
+```
+$ echo 'echo "alias tf='terraform'" >> ~/.bash_aliases' >> ~/.bashrc
 ```
 
 ---
@@ -114,13 +120,13 @@ ci_password "<hashed_password>"
 Save it and type :
 
 ```
-$ tofu init 
+$ tf init 
 ```
 Check plan and apply it :  
 
 ```
-$ tofu plan -var-file=dev.tfvars
-$ tofu apply -var-file=dev.tfvars -auto-approve
+$ tf plan -var-file=dev.tfvars
+$ tf apply -var-file=dev.tfvars -auto-approve
 ```
 
 **Recommended workflow:**
