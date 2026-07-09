@@ -44,7 +44,7 @@ sudo apt update
 sudo apt install -y terraform
 ```
 
-Make a alias:
+Make an alias:
 
 ```
 $ echo 'echo "alias tf='terraform'" >> ~/.bash_aliases' >> ~/.bashrc
@@ -91,9 +91,9 @@ sudo qemu-img resize ubuntu-noble-24-04.img +20G
 
 Download suitable cloud image and resize image size to suitable as needed.
 
-## Setup the ready-to-go environment
+## Set up the ready-to-go environment
 
-Copy a ssh key to module to login system:
+Copy used ssh key to module to login system:
 ```bash
 cp ~/.ssh/id_ed25519.pub infra/modulues/libvirt-vm/keys
 ````
