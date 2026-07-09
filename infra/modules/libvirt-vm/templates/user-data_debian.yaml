@@ -3,40 +3,48 @@ hostname: ${hostname}
 fqdn: ${hostname}.local
 
 users:
-  - name: tester
+  - name: ${username}
+    passwd: ${password}
     groups: sudo
     shell: /bin/bash
     sudo: ALL=(ALL) NOPASSWD:ALL
-    lock_passwd: true
+    lock_passwd: false
+    ssh_pwauth: true
     ssh-authorized-keys:
       - "${ssh_public_key}"
+
+keyboard:
+  layout: fi
+  model: pc105
+  variant: nodeadkeys
+  options: compose:rwin
 
 # Update and install basic packages
 package_update: true
 package_upgrade: true
 
+timezone: Europe/Helsinki
+locale: en_US.UTF-8
+
 packages:
-  - curl
   - git
   - htop
-  - openssh-server
   - net-tools
   - vim
   - qemu-guest-agent
 
 # Enable qemu-guest-agent
 runcmd:
+#  - timedatectl set-timezone Europe/Helsinki
   - systemctl enable --now qemu-guest-agent
-  - systemctl restart qemu-guest-agent
+  - echo "First phase installation complete!" > /etc/motd
+#  - systemctl restart qemu-guest-agent
+  -
+#  - [ localectl, set-x11-keymap, fi ]
+#  - [ dpkg-reconfigure, -f, noninteractive, keyboard-configuration ]
 
 # Resize root filesystem (usually automatic, but safe to force)
 growpart:
   mode: auto
   devices: [ '/' ]
   ignore_fail: true
-
-power_state:
-  delay: 0
-  mode: poweroff
-  message: "First boot completed"
-  timeout: 30

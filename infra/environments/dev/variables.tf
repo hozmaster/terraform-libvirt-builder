@@ -42,3 +42,20 @@ variable "hostname" {
   type    = string
   default = ""
 }
+
+variable "master_ips" {
+  type    = list(string)
+  default = ["192.1682.2.50"]
+}
+
+variable "ci_user" {
+  type        = string
+  default     = ""
+  description = "The name of the root user in the vm"
+}
+
+variable "ci_password"  {
+  type        = string
+  default     = ""
+  description = "Root user password"
+}

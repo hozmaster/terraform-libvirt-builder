@@ -1,0 +1,46 @@
+---
+- name: Prepare all K3s master nodes
+  hosts: all
+  become: true
+  gather_facts: true
+  tasks:
+    - name: Install required system packages
+      ansible.builtin.package:
+        name:
+          - curl
+          - sudo
+        state: present
+
+- name: Initialize the first K3s master node
+  hosts: all[0]
+  become: true
+  tasks:
+    - name: Download and install K3s on primary master
+      ansible.builtin.shell: |
+        curl -sfL https://get.k3s.io | sh -s - server --cluster-init  --flannel-backend=vxlan
+      args:
+        creates: /usr/local/bin/k3s
+
+    - name: Fetch the cluster registration token
+      ansible.builtin.slurp:
+        src: /var/lib/rancher/k3s/server/node-token
+      register: k3s_token_b64
+
+    - name: Set token as a global fact for other nodes
+      ansible.builtin.set_fact:
+        k3s_token: "{{ k3s_token_b64.content | b64decode | trim }}"
+      delegate_to: "{{ item }}"
+      delegate_facts: true
+      loop: "{{ groups['all'] }}"
+
+#- name: Join additional master nodes to the cluster
+#  hosts: all:!all[0]
+#  become: true
+#  tasks:
+#    - name: Join remaining masters to the control plane
+#      ansible.builtin.shell: |
+#        curl -sfL https://k3s.io | sh -s - server \
+#          --server https://{{ hostvars[groups['all'][0]]['ansible_host'] | default(groups['all'][0]) }}:6443 \
+#          --token {{ k3s_token }}
+#      args:
+#        creates: /usr/local/bin/k3s

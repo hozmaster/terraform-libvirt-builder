@@ -55,3 +55,20 @@ variable "ssh_public_key_path" {
   type        = string
   default     = "~/.ssh/id_ed25519.pub"
 }
+
+variable "master_ips" {
+  type    = list(string)
+  default = ["192.168.2.140"]
+}
+
+variable "ci_user" {
+  type        = string
+  default     = ""
+  description = "The name of the root user in the vm"
+}
+
+variable "ci_password"  {
+  type        = string
+  default     = ""
+  description = "Root user password"
+}

@@ -8,7 +8,7 @@ terraform {
   }
 }
 
-resource "libvirt_pool" "vm_datastore" {
+resource "libvirt_pool" "lepanto_storage" {
   name = "datastorage"
   type = "dir"
   target = {
@@ -19,31 +19,23 @@ resource "libvirt_pool" "vm_datastore" {
 resource "libvirt_cloudinit_disk" "cloudinit_seed" {
   name = "${var.vm_name}-cloudinit-data"
 
-  meta_data = <<-EOF
-    instance-id: ${var.hostname}
-    local-hostname: ${var.hostname}.local
-  EOF
-
-  user_data = templatefile("${path.module}/templates/user-data.yaml", {
-    ssh_public_key = trimspace(local.ssh_public_key)
-    hostname       = var.hostname
+  meta_data = templatefile("${path.module}/templates/meta-data.cfg", {
+    hostname = var.hostname
   })
 
-  network_config = <<-EOF
-    network:
-    version: 2
-    ethernets:
-      en_interfaces:
-        match:
-          name: "en*"
-        dhcp4: yes
-        dhcp6: yes
-  EOF
+  user_data = templatefile("${path.module}/templates/user-data_debian.yaml", {
+    ssh_public_key = trimspace(local.ssh_public_key)
+    hostname       = var.hostname
+    username       = var.ci_user
+    password       = var.ci_password
+  })
+
+  network_config = file("${path.module}/templates/network_config_static_simple.cfg")
 }
 
 resource "libvirt_volume" "cloudinit_disk" {
   name = "${var.vm_name}-cloudinit-disk"
-  pool = libvirt_pool.vm_datastore.name
+  pool = libvirt_pool.lepanto_storage.name
   create = {
     content = {
       url = libvirt_cloudinit_disk.cloudinit_seed.path
@@ -52,9 +44,8 @@ resource "libvirt_volume" "cloudinit_disk" {
 }
 
 resource "libvirt_volume" "data_disk" {
-  name = var.data_disk
-  pool = libvirt_pool.vm_datastore.name
-
+  name     = var.data_disk
+  pool     = libvirt_pool.lepanto_storage.name
   capacity = var.data_disk_size_gb2
   create = {
     format : "qcow2"
@@ -86,9 +77,12 @@ resource "libvirt_domain" "legnano" {
     type_arch    = "x86_64"
     type_machine = "pc-q35-noble"
     boot_devices = [
-      { dev = "cdrom" },
       { dev = "hd" }
     ]
+  }
+
+  cpu = {
+    mode = "host-passthrough"
   }
 
   features = {
@@ -99,6 +93,7 @@ resource "libvirt_domain" "legnano" {
     vmport = false
   }
 
+
   devices = {
     consoles = [{
       type = "pty"
@@ -107,6 +102,32 @@ resource "libvirt_domain" "legnano" {
         port = "0"
       }
     }]
+
+    channels = [
+      {
+        source = {
+          unix = {
+            mode = "bind"
+          }
+        }
+        target = {
+          type = "virtio"
+          virt_io = {
+            name = "org.qemu.guest_agent.0"
+          }
+        }
+      },
+      {
+        source = {
+          spice_vmc = true
+        }
+        target = {
+          virt_io = {
+            name = "com.redhat.spice.0"
+          }
+        }
+      }
+    ]
 
     serials = [{
       target = {
@@ -171,7 +192,6 @@ resource "libvirt_domain" "legnano" {
         }
       }
     ]
-
     videos = [{
       model = {
         type    = "virtio"
@@ -179,9 +199,18 @@ resource "libvirt_domain" "legnano" {
         primary = "yes"
       }
     }]
-
-    cpu = {
-      mode = "host-passthrough"
-    }
   }
+}
+
+data "libvirt_domain_interface_addresses" "vm_address" {
+  depends_on = [libvirt_domain.legnano]
+  domain     = libvirt_domain.legnano.name
+  source     = "any" # or "agent" or "any"
+}
+
+output "ip" {
+  value = try(
+    data.libvirt_domain_interface_addresses.vm_address.interfaces[0].addrs[0].addr,
+    var.master_ips[0]
+  )
 }

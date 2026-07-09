@@ -80,8 +80,10 @@ sudo chown -R $USER:$USER /opt/libvirt
 cd /opt/libvirt/source
 wget https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img \
      -O ubuntu-noble-24-04.img
+sudo qemu-img resize ubuntu-noble-24-04.img +20G   
 ```
 
+Download suitable cloud image and resize image size to suitable as needed.
 
 ## Setup the ready-to-go environment
 
@@ -95,6 +97,7 @@ Go to dev environment directory:
 cd infra/environments/dev
 ```
 
+Type `$ openssl passwd -G` to create hashed password <br>
 Copy example file or create a 'dev.tfvars'-file and fill correct values to it:
 
 ```
@@ -104,6 +107,8 @@ source_disk_image = "<disk_image_file>"
 vm_memory_size_mb = 2048
 libvirt_path = "/opt/libvirt"
 hostname = "<hostname>"
+ci_userr = "ubuntu"
+ci_password "<hashed_password>"
 ```
 
 Save it and type :
@@ -111,10 +116,11 @@ Save it and type :
 ```
 $ tofu init 
 ```
+Check plan and apply it :  
 
 ```
-$ tofu plan -vars-file=dev.tfvars
-$ tofu apply -vars-file=dev.tfvars -auto-approve
+$ tofu plan -var-file=dev.tfvars
+$ tofu apply -var-file=dev.tfvars -auto-approve
 ```
 
 **Recommended workflow:**
@@ -122,7 +128,6 @@ $ tofu apply -vars-file=dev.tfvars -auto-approve
 2. Copy `dev.tfvars.example` to `dev.tfvars`
 3. Adjust variables (VM count, resources, SSH keys, etc.)
 4. Run the commands above
-
 
 ---
 

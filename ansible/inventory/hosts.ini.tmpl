@@ -1,0 +1,4 @@
+[k3s_nodes]
+%{ for ip in k3s_ips ~}
+${ip}
+%{ endfor ~}
