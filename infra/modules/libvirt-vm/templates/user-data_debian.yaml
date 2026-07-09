@@ -35,13 +35,8 @@ packages:
 
 # Enable qemu-guest-agent
 runcmd:
-#  - timedatectl set-timezone Europe/Helsinki
   - systemctl enable --now qemu-guest-agent
   - echo "First phase installation complete!" > /etc/motd
-#  - systemctl restart qemu-guest-agent
-  -
-#  - [ localectl, set-x11-keymap, fi ]
-#  - [ dpkg-reconfigure, -f, noninteractive, keyboard-configuration ]
 
 # Resize root filesystem (usually automatic, but safe to force)
 growpart:
